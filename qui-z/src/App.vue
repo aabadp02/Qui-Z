@@ -1,14 +1,16 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
-import NavbarComponent from '@/components/NavbarComponent.vue'
+import { RouterView } from "vue-router";
+import NavbarComponent from "@/components/NavbarComponent.vue";
+import DynamicDialog from "primevue/dynamicdialog";
+import Toast from "primevue/toast";
 </script>
 
 <template>
-  <NavbarComponent>
-    
-  </NavbarComponent>
+  <NavbarComponent />
+
+  <DynamicDialog />
+  <Toast />
   <RouterView />
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

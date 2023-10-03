@@ -1,10 +1,18 @@
 <script setup lang="ts">
 import ConfiguracionIcon from "@/components/Icons/ConfiguracionIcon.vue";
-import GameConfigurationModal from "@/components/Modals/GameConfigurationModal.vue";
-import { ref } from "vue";
+// import GameConfigurationModalComponent from "@/components/Modals/GameConfigurationModalComponent.vue";
+import { useDialog } from "primevue/usedialog";
+import { ref, defineAsyncComponent } from "vue";
 
-// Variable para indicar si se ha de mostar el modal de configuración de juego
-const configurationModalVisible = ref(false);
+const GameConfigurationModalComponent = defineAsyncComponent(
+  () => import("@/components/Modals/GameConfigurationModalComponent.vue")
+);
+const dialog = useDialog();
+const showConfiguracion = () => {
+  const dialogRef = dialog.open(GameConfigurationModalComponent, {
+    props: {header:'Configuración del juego', modal: true, dismissableMask: true },
+  });
+};
 </script>
 
 <template>
@@ -26,14 +34,12 @@ const configurationModalVisible = ref(false);
         </p>
         <a
           href="#"
-          @click="configurationModalVisible = !configurationModalVisible"
+          @click="showConfiguracion"
           class="inline-flex items-center justify-center px-5 py-3 mr-3 pl-2 text-base font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900"
         >
           Configura las preguntas
           <ConfiguracionIcon class="ml-2" />
         </a>
-
-        <GameConfigurationModal :visible="configurationModalVisible" />
 
         <router-link
           to="/game"
