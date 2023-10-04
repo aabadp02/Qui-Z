@@ -1,16 +1,42 @@
 <script setup lang="ts">
 import ConfiguracionIcon from "@/components/Icons/ConfiguracionIcon.vue";
-// import GameConfigurationModalComponent from "@/components/Modals/GameConfigurationModalComponent.vue";
+import { useToast } from "primevue/usetoast";
 import { useDialog } from "primevue/usedialog";
 import { ref, defineAsyncComponent } from "vue";
 
 const GameConfigurationModalComponent = defineAsyncComponent(
   () => import("@/components/Modals/GameConfigurationModalComponent.vue")
 );
+
+const toast = useToast();
+
 const dialog = useDialog();
 const showConfiguracion = () => {
   const dialogRef = dialog.open(GameConfigurationModalComponent, {
-    props: {header:'Configuración del juego', modal: true, dismissableMask: true },
+    props: {
+      header: "Configuración del juego",
+      style: {
+        width: "50vw",
+      },
+      breakpoints: {
+        "960px": "75vw",
+        "640px": "90vw",
+      },
+      modal: true,
+      dismissableMask: true,
+    },
+    onClose: (options: any) => {
+      const data = options.data;
+      if (data) {
+        const buttonType = data.buttonType;
+        if (buttonType == "cancelar") {
+          toast.add({ severity: "warn", detail: "Cancelado", life: 2000 });
+        }
+        if (buttonType == "guardar") {
+          toast.add({ severity: "success", detail: "Guardado", life: 2000 });
+        }
+      }
+    },
   });
 };
 </script>
